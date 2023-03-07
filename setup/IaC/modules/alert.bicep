@@ -35,6 +35,10 @@ resource featuresTable 'Microsoft.OperationalInsights/workspaces/tables@2022-10-
               name: 'UpdateNeeded_b'
               type: 'bool'
             }
+            {
+              name: 'TimeGenerated'
+              type: 'datetime'
+            }
         ]
     }
     retentionInDays: 31
@@ -45,6 +49,9 @@ resource featuresTable 'Microsoft.OperationalInsights/workspaces/tables@2022-10-
 resource rule 'Microsoft.Insights/scheduledQueryRules@2022-08-01-preview' = {
   location: location
   name: alertRuleName
+  dependsOn: [
+    featuresTable
+  ]
   properties: {
     description: alertRuleDescription
     displayName: alertRuleDisplayName

@@ -102,6 +102,10 @@ module storageaccount 'modules/storage.bicep' = if (newDeployment || updateCoreR
 
 module alertNewVersion 'modules/alert.bicep' = {
   name: 'guardrails-alertNewVersion'
+  dependsOn: [
+    aa
+    LAW
+  ]
   params: {
     alertRuleDescription: 'Alerts when a new version of the Guardrails Solution Accelerator is available'
     alertRuleName: 'GuardrailsNewVersion'
