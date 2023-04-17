@@ -376,7 +376,7 @@ function Check-UpdateAvailable {
         $workspaceKey,
         [Parameter(Mandatory = $false)]
         [string]
-        $LogType = "GR_VersionInfo",
+        $LogType = "GR_VersionInfo_CL",
         [Parameter(Mandatory = $true)]
         [string]
         $ReportTime,

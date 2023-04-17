@@ -20,7 +20,7 @@ resource featuresTable 'Microsoft.OperationalInsights/workspaces/tables@2022-10-
         name: 'GR_VersionInfo_CL'
         columns: [
             {
-                name: 'CurrentVersion_s'
+                name: 'DeployedVersion_s'
                 type: 'string'
             }
             {
