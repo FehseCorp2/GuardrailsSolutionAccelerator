@@ -1,3 +1,6 @@
+
+
+
 $resourcegroup='guardrails-6eb08c2c'
 # Write-Output "Creating bicep parameters file for this deployment."
 # $templateParameterObject = @{
@@ -52,12 +55,12 @@ $staticData = @"
 #000000000-0000-0000-00000000000000000
 
 ### Step 3: Send the data to the Log Analytics workspace via the DCE.
-
+#ingest-data -dceurl $dceEndpoint -dcdImmutableId $dcrImmutableId -streamName $streamName -data $staticData
 $body = $staticData;
 # $headers = @{"Authorization"="Bearer $bearerToken";"Content-Type"="application/json"};
 $uri = "$dceEndpoint/dataCollectionRules/$dcrImmutableId/streams/$($streamName)?api-version=2021-11-01-preview"
 
-Invoke-AzRestMethod -Uri $uri -Method "Post" -Body $body 
+Invoke-AzRestMethod -Uri $uri -Method "Post" -Payload $body -
 
 # $uploadResponse = Invoke-RestMethod -Uri $uri -Method "Post" -Body $body -Headers $headers
 # $uploadResponse
