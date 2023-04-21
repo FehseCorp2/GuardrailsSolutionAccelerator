@@ -16,7 +16,7 @@ resource dataCollectionRule 'Microsoft.Insights/dataCollectionRules@2022-06-01' 
   properties: {
     dataCollectionEndpointId: endpointResourceId
     streamDeclarations: {
-      'Custom-GuardrailsCompliance_CL': {
+      'Custom-NewVersionInfoTable_CL': {
         columns: [
           {
             name: 'TimeGenerated'

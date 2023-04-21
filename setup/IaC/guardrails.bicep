@@ -28,6 +28,9 @@ param TenantDomainUPN string
 param updateCoreResources bool = false
 param updatePSModules bool = false
 param updateWorkbook bool = false
+// New log ingestion parameters
+param dcepointname string
+param dcrrulename string
 
 var containername = 'guardrailsstorage'
 var GRDocsBaseUrl='https://github.com/Azure/GuardrailsSolutionAccelerator/docs/'
@@ -123,4 +126,38 @@ module alertNewVersion 'modules/alert.bicep' = {
     windowSize: 'PT6H'
   }
 }
+
+
+var parentname = split(LAW.outputs.logAnalyticsResourceId, '/')[8]
+
+module dce './modules/dce.bicep' = {
+  name: 'dce'
+  params: {
+    dataCollectionEndpointName: dcepointname
+    location: location
+  }
+}
+module dcr './modules/dcr.bicep' = {
+  name: 'dcr'
+  params: {
+    dataCollectionRuleName: dcrrulename
+    location: location
+    endpointResourceId: dce.outputs.dataCollectionEndpointId
+    workspaceResourceId: LAW.outputs.logAnalyticsResourceId
+  }
+  dependsOn: [
+    dce
+    table
+  ]
+}
+
+module table './modules/table.bicep' = {
+  name: 'table'
+  params: {
+    parentname: parentname
+  }
+}
+output dceEnpoint string = dce.outputs.dataCollectionEndpointId
+output dceimmutableId string = dcr.outputs.dcrimmutableId
+
 output guardrailsAutomationAccountMSI string = newDeployment ? aa.outputs.guardrailsAutomationAccountMSI : ''
